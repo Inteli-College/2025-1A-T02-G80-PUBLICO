@@ -1,0 +1,30 @@
+{
+  "name": "dalio-ai-v3-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon --exec \"node --loader ts-node/esm\" index.ts",
+    "elevenlabs": "node --loader ts-node/esm elevenlabs.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@ai-sdk/openai": "^2.0.16",
+    "@elevenlabs/elevenlabs-js": "^2.12.0",
+    "ai": "^5.0.17",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
