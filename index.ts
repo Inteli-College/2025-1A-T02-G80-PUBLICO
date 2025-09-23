@@ -1,12 +1,34 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import routes from './src/routes/routes';
+import { testConnection, initializeTables } from './src/database';
 
 // Carregar variáveis de ambiente
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
+
+// Função para inicializar o banco de dados
+async function initializeDatabase(): Promise<void> {
+  try {
+    console.log('🔄 Inicializando banco de dados...');
+    
+    // Testar conexão
+    const connected = await testConnection();
+    if (!connected) {
+      console.warn('⚠️ Não foi possível conectar ao PostgreSQL. Continuando sem persistência...');
+      return;
+    }
+    
+    // Inicializar tabelas
+    await initializeTables();
+    console.log('✅ Banco de dados inicializado com sucesso');
+  } catch (error) {
+    console.error('❌ Erro ao inicializar banco de dados:', error);
+    console.warn('⚠️ Continuando sem persistência de mensagens...');
+  }
+}
 
 // Middlewares
 app.use(express.json());
@@ -41,10 +63,20 @@ app.use((error: any, req: express.Request, res: express.Response, next: express.
 });
 
 // Inicializar servidor
-app.listen(port, () => {
-  console.log(`🚀 Servidor rodando na porta ${port}`);
-  console.log(`📱 WhatsApp Phone Number ID: 766776193182186`);
-  console.log(`🎵 ElevenLabs configurado: ${process.env.ELEVENLABS_API_KEY ? 'Sim' : 'Não'}`);
-  console.log(`🤖 OpenAI configurado: ${process.env.OPENAI_API_KEY ? 'Sim' : 'Não'}`);
-  console.log(`⚡ Ambiente: ${process.env.NODE_ENV || 'development'}`);
-});
+async function startServer(): Promise<void> {
+  try {
+    // Inicializar banco de dados primeiro
+    await initializeDatabase();
+    
+    // Iniciar servidor
+    app.listen(port, () => {
+      console.log(`🚀 Servidor rodando na porta ${port}`);
+    });
+  } catch (error) {
+    console.error('❌ Erro ao iniciar servidor:', error);
+    process.exit(1);
+  }
+}
+
+// Iniciar aplicação
+startServer();

@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import dotenv from "dotenv";
+import { messageService, type ConversationContext } from "../database";
 
 dotenv.config();
 
@@ -47,6 +48,88 @@ function getElevenLabsClient(): ElevenLabsClient {
     });
   }
   return elevenlabs;
+}
+
+// Função para gerar prompt com contexto da conversa
+async function generateContextualPrompt(whatsappNumber: string, currentMessage: string): Promise<{
+  systemPrompt: string;
+  userPrompt: string;
+}> {
+  try {
+    // Buscar contexto da conversa
+    const context = await messageService.getContextForAI(whatsappNumber, 8);
+    
+    let contextText = "";
+    if (context.length > 0) {
+      contextText = "\n\n**CONTEXTO DA CONVERSA ANTERIOR:**\n";
+      context.forEach((msg, index) => {
+        const role = msg.role === 'user' ? 'USUÁRIO' : 'VOCÊ';
+        contextText += `${role}: ${msg.content}\n`;
+      });
+      contextText += "\n**NOVA MENSAGEM:**\n";
+    }
+
+    return {
+      systemPrompt: DALIO_AI_PROMPT,
+      userPrompt: contextText + `USUÁRIO: ${currentMessage}`
+    };
+  } catch (error) {
+    console.error('Erro ao gerar contexto:', error);
+    // Fallback para mensagem sem contexto
+    return {
+      systemPrompt: DALIO_AI_PROMPT,
+      userPrompt: `Responde a seguinte mensagem: ${currentMessage}`
+    };
+  }
+}
+
+// Função para salvar mensagem do usuário
+async function saveUserMessage(whatsappNumber: string, messageText: string, messageType: string = 'text'): Promise<void> {
+  try {
+    // Buscar ou criar conversa
+    const conversation = await messageService.getOrCreateConversation(whatsappNumber);
+    
+    // Salvar mensagem do usuário
+    await messageService.saveMessage({
+      conversation_id: conversation.id!,
+      whatsapp_number: whatsappNumber,
+      message_text: messageText,
+      message_type: messageType,
+      sender: 'user'
+    });
+  } catch (error) {
+    console.error('Erro ao salvar mensagem do usuário:', error);
+  }
+}
+
+// Função para salvar mensagem do bot
+async function saveBotMessage(
+  whatsappNumber: string, 
+  messageText: string, 
+  aiModel: string = 'gpt-4o-mini',
+  hasAudio: boolean = false,
+  voiceId?: string,
+  tokensUsed?: number
+): Promise<void> {
+  try {
+    // Buscar conversa existente
+    const conversation = await messageService.getOrCreateConversation(whatsappNumber);
+    
+    // Salvar mensagem do bot
+    await messageService.saveMessage({
+      conversation_id: conversation.id!,
+      whatsapp_number: whatsappNumber,
+      message_text: messageText,
+      message_type: hasAudio ? 'audio' : 'text',
+      sender: 'bot',
+      ai_model: aiModel,
+      tokens_used: tokensUsed,
+      has_audio: hasAudio,
+      voice_id: voiceId
+    });
+  } catch (error) {
+    console.error('Erro ao salvar mensagem do bot:', error);
+  }
 }
 
 // Função para enviar mensagem via WhatsApp Cloud API
@@ -287,55 +370,94 @@ export const handleWebhook = async (req: Request, res: Response) => {
 
         console.log(`Mensagem recebida de ${from}: ${messageText}`);
 
+        // Salvar mensagem do usuário no banco
+        await saveUserMessage(from, messageText, messageType);
+
+        // Gerar prompt com contexto da conversa
+        const { systemPrompt, userPrompt } = await generateContextualPrompt(from, messageText);
+
         // Verificar se o usuário quer um áudio
         if (
           messageText?.toLowerCase().includes("áudio") ||
           messageText?.toLowerCase().includes("audio")
         ) {
           try {
-            // Gerar resposta com AI primeiro
+            // Gerar resposta com AI usando contexto
             const response = await generateText({
-              system: DALIO_AI_PROMPT,
+              system: systemPrompt,
               model: openai("gpt-4o-mini"),
-              prompt: `Responde a seguinte mensagem: ${messageText}`,
+              prompt: userPrompt,
             });
 
             // Gerar e enviar áudio com ElevenLabs
             await generateAndSendAudio(from, response.text, "bJrNspxJVFovUxNBQ0wh");
+
+            // Salvar resposta do bot no banco
+            await saveBotMessage(
+              from, 
+              response.text, 
+              "gpt-4o-mini", 
+              true, 
+              "bJrNspxJVFovUxNBQ0wh",
+              response.usage?.totalTokens
+            );
           } catch (error) {
             console.error("Erro ao gerar/enviar áudio:", error);
-            await sendWhatsAppMessage(
-              from,
-              "Desculpe, não consegui gerar o áudio no momento. Vou responder por texto:"
-            );
+            const fallbackMessage = "Desculpe, não consegui gerar o áudio no momento. Vou responder por texto:";
+            await sendWhatsAppMessage(from, fallbackMessage);
 
-            // Fallback para resposta de texto
-            const response = await generateText({
-              system: DALIO_AI_PROMPT,
-              model: openai("gpt-4o-mini"),
-              prompt: `Responde a seguinte mensagem: ${messageText}`,
-            });
-            await sendWhatsAppMessage(from, response.text);
+            try {
+              // Fallback para resposta de texto
+              const response = await generateText({
+                system: systemPrompt,
+                model: openai("gpt-4o-mini"),
+                prompt: userPrompt,
+              });
+              
+              await sendWhatsAppMessage(from, response.text);
+
+              // Salvar resposta do bot no banco
+              await saveBotMessage(
+                from, 
+                `${fallbackMessage}\n\n${response.text}`, 
+                "gpt-4o-mini", 
+                false, 
+                undefined,
+                response.usage?.totalTokens
+              );
+            } catch (fallbackError) {
+              console.error("Erro no fallback:", fallbackError);
+            }
           }
         } else {
-          // Resposta normal com AI (apenas texto)
-          const response = await generateText({
-            system: DALIO_AI_PROMPT,
-            model: openai("gpt-4o-mini"),
-            prompt: `Responde a seguinte mensagem: ${messageText}`,
-          });
+          try {
+            // Resposta normal com AI usando contexto
+            const response = await generateText({
+              system: systemPrompt,
+              model: openai("gpt-4o-mini"),
+              prompt: userPrompt,
+            });
 
-          // Resposta padrão baseada no tipo de mensagem
-          let responseMessage = "";
+            // Enviar resposta automática
+            await sendWhatsAppMessage(from, response.text);
 
-          if (messageType === "text") {
-            responseMessage = response.text;
-          } else {
-            responseMessage = response.text;
+            // Salvar resposta do bot no banco
+            await saveBotMessage(
+              from, 
+              response.text, 
+              "gpt-4o-mini", 
+              false, 
+              undefined,
+              response.usage?.totalTokens
+            );
+          } catch (error) {
+            console.error("Erro ao gerar resposta:", error);
+            const errorMessage = "Desculpe, estou com dificuldades técnicas no momento. Tente novamente em alguns instantes.";
+            await sendWhatsAppMessage(from, errorMessage);
+            
+            // Salvar mensagem de erro
+            await saveBotMessage(from, errorMessage, "error");
           }
-
-          // Enviar resposta automática
-          await sendWhatsAppMessage(from, responseMessage);
         }
       }
     }
