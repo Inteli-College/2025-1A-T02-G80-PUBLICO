@@ -1,142 +1,97 @@
-# Dalio AI v3 Server - WhatsApp Bot
+# Dalio AI
 
-Servidor Node.js com TypeScript para receber e responder mensagens do WhatsApp Cloud API automaticamente.
+Assessor de investimentos da geração Z.
 
 ## 🚀 Funcionalidades
 
-- ✅ Recebe webhooks do WhatsApp Cloud API
-- ✅ Responde automaticamente às mensagens recebidas
-- ✅ Suporte a diferentes tipos de mensagem
-- ✅ Logs detalhados das interações
+- ✅ **Assistente Financeiro IA** com contexto de conversa
+- ✅ **Classificação de Conteúdo** malicioso automática  
+- ✅ **Síntese de Voz** com ElevenLabs
+- ✅ **Persistência** de mensagens (Neon Database)
+- ✅ **Arquitetura em Camadas** (Models/Repositories/Services/Controllers)
+- ✅ **Divisão Inteligente** de mensagens longas
 
-## 📋 Pré-requisitos
+## ⚙️ Configuração Rápida
 
-- Node.js 18+
-- Conta no Meta for Developers
-- WhatsApp Business Account configurado
-
-## ⚙️ Configuração
-
-### 1. Clone e instale dependências
-
+### 1. Instalar dependências
 ```bash
-git clone <seu-repositorio>
-cd dalio-ai-v3-server
 pnpm install
 ```
 
-### 2. Configure as variáveis de ambiente
-
-Copie o arquivo `.env.example` para `.env`:
-
-```bash
-cp .env.example .env
-```
-
-Edite o arquivo `.env` com suas credenciais:
+### 2. Configurar variáveis de ambiente
+Crie arquivo `.env`:
 
 ```env
-WHATSAPP_ACCESS_TOKEN=seu_access_token_aqui
-WHATSAPP_VERIFY_TOKEN=seu_verify_token_aqui
-WHATSAPP_PHONE_NUMBER_ID=seu_phone_number_id_aqui
+# WhatsApp Cloud API
+WHATSAPP_ACCESS_TOKEN=seu_access_token
+WHATSAPP_VERIFY_TOKEN=seu_verify_token  
+WHATSAPP_PHONE_NUMBER_ID=seu_phone_id
+
+# IA e Classificação
+OPENAI_API_KEY=sk-proj-xxx
+HF_TOKEN=hf_xxx
+
+# Síntese de Voz
+ELEVENLABS_API_KEY=sk_xxx
+
+# Database
+DATABASE_URL=postgresql://user:pass@host/db
+
+# Servidor
 PORT=3001
 ```
 
-### 3. Como obter as credenciais
+### 3. Configurar Meta WhatsApp Business API
 
-#### Access Token:
+#### **Passo 1: Criar App**
 1. Acesse [Meta for Developers](https://developers.facebook.com/)
-2. Vá para seu app WhatsApp Business
-3. Em "WhatsApp" > "API Setup"
-4. Copie o "Temporary access token" ou gere um permanente
+2. **Meus Apps** > **Criar App** > **Empresas**
+3. Nome do app: `Nome do seu app`
+4. **Adicionar Produto** > **WhatsApp** > **Configurar**
 
-#### Phone Number ID:
-1. Na mesma página "API Setup"
-2. Copie o "Phone number ID" do número que você quer usar
+#### **Passo 2: Obter Credenciais**
+1. Em **API Setup**:
+   - **Access Token:** Clique em **Gerar Token** (temporário) ou crie permanente
+   - **Phone Number ID:** Copie o ID do número de teste
+   - **Verify Token:** Crie uma string segura (ex: `meu_token_123`)
 
-#### Verify Token:
-1. Crie uma string aleatória segura (ex: "meu_token_secreto_123")
-2. Use a mesma string no webhook e no arquivo `.env`
+#### **Passo 3: Configurar Webhook** 
+1. Em **Configuration** > **Webhook**:
+   - **URL do Callback:** Siga o passo 4
+   - **Verificar Token:** mesmo criado no Passo 2  
+   - **Verificar e Salvar**
 
-## 🏃‍♂️ Executando
-
-### Desenvolvimento
+#### **Passo 4: Teste Local **
 ```bash
-pnpm run dev
-```
-
-### Produção
-```bash
-pnpm start
-```
-
-## 🔗 Configuração do Webhook
-
-No Meta for Developers:
-
-1. Vá em "WhatsApp" > "Configuration"
-2. Em "Webhook", clique "Edit"
-3. Configure:
-   - **Callback URL**: `https://seu-dominio.com/` (ou use ngrok para testes)
-   - **Verify Token**: o mesmo que você colocou no `.env`
-4. Subscribe aos eventos: `messages`
-
-### Para testes locais com ngrok:
-
-```bash
-# Instale o ngrok
-npm install -g ngrok
-
-# Execute o servidor
+# Terminal 1: Executar aplicação
 pnpm run dev
 
-# Em outro terminal, exponha a porta
+# Terminal 2: Expor porta com ngrok  
 ngrok http 3001
 
-# Use a URL do ngrok como Callback URL
+# Use a URL https://xxx.ngrok.io como Callback URL
 ```
 
-## 📝 Personalização da Resposta
+### 4. Outras Credenciais
 
-Para alterar a mensagem padrão, edite a função no arquivo `index.ts`:
+**OpenAI:** [Platform](https://platform.openai.com/api-keys) > **Create new secret key**  
+**HuggingFace:** [Settings](https://huggingface.co/settings/tokens) > **New token**  
+**ElevenLabs:** [Profile](https://elevenlabs.io/app/speech-synthesis) > **API Key**  
+**Neon DB:** [Console](https://console.neon.tech/) > **Dashboard** > **Connection String**
 
-```typescript
-// Resposta padrão baseada no tipo de mensagem
-let responseMessage = "";
+## 🏃‍♂️ Executar
 
-if (messageType === "text") {
-  responseMessage = `Sua mensagem personalizada aqui: "${messageText}"`;
-} else {
-  responseMessage = "Sua resposta para outros tipos de mensagem";
-}
+```bash
+pnpm run dev
 ```
 
-## 🐛 Troubleshooting
+## 🛡️ Arquitetura
 
-### Erro: "Webhook verification failed"
-- Verifique se o `WHATSAPP_VERIFY_TOKEN` está correto
-- Confirme se a URL do webhook está acessível
-
-### Erro: "Failed to send message"
-- Verifique o `WHATSAPP_ACCESS_TOKEN`
-- Confirme se o `WHATSAPP_PHONE_NUMBER_ID` está correto
-- Verifique se o número tem permissão para enviar mensagens
-
-### Servidor não inicia
-- Verifique se a porta 3001 está livre
-- Confirme se todas as dependências foram instaladas
-
-## 📊 Logs
-
-O servidor registra:
-- Webhooks recebidos
-- Mensagens processadas
-- Respostas enviadas
-- Erros de API
-
-## 🔒 Segurança
-
-- Mantenha seus tokens seguros
-- Use HTTPS em produção
-- Considere implementar rate limiting
-- Valide sempre os webhooks recebidos 
+```
+src/
+├── models/          # Interfaces TypeScript
+├── repositories/    # Queries SQL
+├── services/        # Lógica de negócio  
+├── controllers/     # Handlers HTTP
+└── routes/          # Definição de rotas
+```

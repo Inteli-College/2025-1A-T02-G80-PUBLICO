@@ -1,5 +1,9 @@
 import { Router } from 'express';
-import { verifyWebhook, handleWebhook } from '../controllers/controller';
+import { 
+  verifyWebhook, 
+  handleWebhook,
+  healthCheck
+} from '../controllers/controller';
 
 const router = Router();
 
@@ -8,5 +12,8 @@ router.get('/', verifyWebhook);
 
 // Rota para recebimento de mensagens (POST)
 router.post('/', handleWebhook);
+
+// Rota de health check
+router.get('/health', healthCheck);
 
 export default router;

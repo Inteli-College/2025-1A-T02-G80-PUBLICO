@@ -5,10 +5,12 @@ import fs from "fs";
 import path from "path";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import dotenv from "dotenv";
-import { messageService } from "../database";
+import { conversationService, messageService } from "../services";
 import { DALIO_AI_PROMPT } from "../lib/utils/prompt";
 
 dotenv.config();
+
+const HF_TOKEN = process.env.HF_TOKEN;
 
 const verifyToken =
   process.env.WHATSAPP_VERIFY_TOKEN;
@@ -18,7 +20,7 @@ const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
 
 // Configuração do ElevenLabs
 let elevenlabs: ElevenLabsClient | null = null;
-const defaultVoiceId = "JBFqnCBsd6RMkjVDRZzb"; // George voice
+const defaultVoiceId = "JBFqnCBsd6RMkjVDRZzb";
 
 // Função para inicializar ElevenLabs
 function getElevenLabsClient(): ElevenLabsClient {
@@ -39,8 +41,8 @@ async function generateContextualPrompt(whatsappNumber: string, currentMessage: 
   userPrompt: string;
 }> {
   try {
-    // Buscar contexto da conversa
-    const context = await messageService.getContextForAI(whatsappNumber, 8);
+    // Buscar contexto da conversa usando o novo service
+    const context = await conversationService.getContextForAI(whatsappNumber, 8);
     
     let contextText = "";
     if (context.length > 0) {
@@ -69,17 +71,11 @@ async function generateContextualPrompt(whatsappNumber: string, currentMessage: 
 // Função para salvar mensagem do usuário
 async function saveUserMessage(whatsappNumber: string, messageText: string, messageType: string = 'text'): Promise<void> {
   try {
-    // Buscar ou criar conversa
-    const conversation = await messageService.getOrCreateConversation(whatsappNumber);
+    // Buscar ou criar conversa usando o novo service
+    const conversation = await conversationService.getOrCreateConversation(whatsappNumber);
     
-    // Salvar mensagem do usuário
-    await messageService.saveMessage({
-      conversation_id: conversation.id!,
-      whatsapp_number: whatsappNumber,
-      message_text: messageText,
-      message_type: messageType,
-      sender: 'user'
-    });
+    // Salvar mensagem do usuário usando o novo messageService
+    await messageService.saveUserMessage(whatsappNumber, messageText, messageType, conversation.id);
   } catch (error) {
     console.error('Erro ao salvar mensagem do usuário:', error);
   }
@@ -95,21 +91,15 @@ async function saveBotMessage(
   tokensUsed?: number
 ): Promise<void> {
   try {
-    // Buscar conversa existente
-    const conversation = await messageService.getOrCreateConversation(whatsappNumber);
-    
-    // Salvar mensagem do bot
-    await messageService.saveMessage({
-      conversation_id: conversation.id!,
-      whatsapp_number: whatsappNumber,
-      message_text: messageText,
-      message_type: hasAudio ? 'audio' : 'text',
-      sender: 'bot',
-      ai_model: aiModel,
-      tokens_used: tokensUsed,
-      has_audio: hasAudio,
-      voice_id: voiceId
-    });
+    // Salvar mensagem do bot usando o novo messageService
+    await messageService.saveBotMessage(
+      whatsappNumber, 
+      messageText, 
+      aiModel, 
+      hasAudio, 
+      voiceId, 
+      tokensUsed
+    );
   } catch (error) {
     console.error('Erro ao salvar mensagem do bot:', error);
   }
@@ -312,7 +302,7 @@ async function sendWhatsAppMessage(to: string, message: string) {
     );
 
     const result = await response.json();
-    console.log("Mensagem enviada:", result);
+
     return result;
   } catch (error) {
     console.error("Erro ao enviar mensagem:", error);
@@ -358,7 +348,7 @@ async function sendWhatsAppAudio(
     );
 
     const result = await response.json();
-    console.log("Áudio enviado:", result);
+    
     return result;
   } catch (error) {
     console.error("Erro ao enviar áudio:", error);
@@ -398,7 +388,6 @@ async function uploadMediaToWhatsApp(filePath: string, mimeType: string) {
     );
 
     const result = await response.json();
-    console.log("Mídia enviada:", result);
 
     if (result.error) {
       throw new Error(`Erro da API WhatsApp: ${result.error.message}`);
@@ -417,8 +406,6 @@ async function generateAudioWithElevenLabs(
   voiceId: string = defaultVoiceId
 ): Promise<string> {
   try {
-    console.log(`Gerando áudio com ElevenLabs: "${text}"`);
-
     const elevenLabsClient = getElevenLabsClient();
     const audio = await elevenLabsClient.textToSpeech.convert(voiceId, {
       text: text,
@@ -449,7 +436,6 @@ async function generateAudioWithElevenLabs(
     const buffer = Buffer.concat(chunks);
     fs.writeFileSync(filePath, buffer);
 
-    console.log(`Áudio salvo em: ${filePath}`);
     return filePath;
   } catch (error) {
     console.error("Erro ao gerar áudio com ElevenLabs:", error);
@@ -477,17 +463,32 @@ async function generateAndSendAudio(
     setTimeout(() => {
       try {
         fs.unlinkSync(audioFilePath);
-        console.log(`Arquivo temporário removido: ${audioFilePath}`);
+        
       } catch (error) {
         console.error("Erro ao remover arquivo temporário:", error);
       }
     }, 60000); // Remove após 1 minuto
 
-    console.log(`Áudio gerado e enviado com sucesso para ${to}`);
   } catch (error) {
     console.error("Erro ao gerar e enviar áudio:", error);
     throw error;
   }
+}
+
+async function query(data: any) {
+	const response = await fetch(
+		"https://af9xok91yrwl455j.us-east-1.aws.endpoints.huggingface.cloud",
+		{
+			headers: {
+                "Accept" : "application/json",
+                "Authorization": `Bearer ${HF_TOKEN}`,
+                "Content-Type": "application/json"
+            },
+			method: "POST",
+			body: JSON.stringify(data),
+		}
+	);
+	return await response.json();
 }
 
 // Controller para verificação do webhook
@@ -510,7 +511,6 @@ export const verifyWebhook = (req: Request, res: Response) => {
 export const handleWebhook = async (req: Request, res: Response) => {
   const timestamp = new Date().toISOString().replace("T", " ").slice(0, 19);
   console.log(`\n\nWebhook received ${timestamp}\n`);
-  console.log(JSON.stringify(req.body, null, 2));
 
   try {
     // Verificar se há mensagens no webhook
@@ -525,7 +525,28 @@ export const handleWebhook = async (req: Request, res: Response) => {
         const messageText = message.text?.body; // Texto da mensagem
         const messageType = message.type;
 
-        console.log(`Mensagem recebida de ${from}: ${messageText}`);
+        // Verificar conteúdo malicioso com modelo customizado
+        const out = await query({ inputs: messageText });
+
+        console.log("Resposta do modelo de classificação:", out);
+        
+        // Verificar se o conteúdo é malicioso (score > 70%)
+        const classificationResult = Array.isArray(out) ? out[0] : out;
+        const isMalicious = classificationResult?.score >= 0.7;
+        
+        if (isMalicious) {
+          
+          // Enviar mensagem padrão para conteúdo malicioso
+          const maliciousMessage = "⚠️ Desculpe, mas não posso responder a esse tipo de conteúdo. Vamos manter nossa conversa focada em educação financeira e investimentos de forma respeitosa e construtiva. Como posso te ajudar com suas finanças hoje? 💰";
+          
+          await sendWhatsAppMessage(from, maliciousMessage);
+          
+          // Salvar mensagem de alerta no banco
+          await saveBotMessage(from, maliciousMessage, "content-filter", false);
+          
+          // Pular para próxima mensagem sem processar
+          continue;
+        }
 
         // Salvar mensagem do usuário no banco
         await saveUserMessage(from, messageText, messageType);
@@ -623,4 +644,14 @@ export const handleWebhook = async (req: Request, res: Response) => {
   }
 
   res.status(200).end();
+};
+
+// Controller para health check
+export const healthCheck = (req: Request, res: Response) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    service: 'Dalio AI',
+    version: '2.1.0'
+  });
 };
