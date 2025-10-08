@@ -11,3 +11,16 @@ export type {
   ConversationStats,
   MessagePreview 
 } from './Message';
+
+export type {
+  UserProfile,
+  UserProfileUpdate
+} from './UserProfile';
+
+export { OnboardingStep, ONBOARDING_QUESTIONS } from './UserProfile';
+
+export type {
+  KnowledgeBase,
+  KnowledgeDataItem,
+  SemanticSearchResult
+} from './KnowledgeBase';

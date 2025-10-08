@@ -8,7 +8,8 @@
     "test:watch": "jest --watch",
     "start": "node index.js",
     "dev": "nodemon --exec \"node --loader ts-node/esm\" index.ts",
-    "elevenlabs": "node --loader ts-node/esm elevenlabs.ts"
+    "elevenlabs": "node --loader ts-node/esm elevenlabs.ts",
+    "seed:knowledge": "node --loader ts-node/esm src/scripts/seed-knowledge-base.ts"
   },
   "keywords": [],
   "author": "",

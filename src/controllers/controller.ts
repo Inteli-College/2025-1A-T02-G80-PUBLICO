@@ -6,6 +6,8 @@ import path from "path";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import dotenv from "dotenv";
 import { conversationService, messageService } from "../services";
+import onboardingService from "../services/OnboardingService";
+import embeddingService from "../services/EmbeddingService";
 import { DALIO_AI_PROMPT } from "../lib/utils/prompt";
 
 dotenv.config();
@@ -35,15 +37,61 @@ function getElevenLabsClient(): ElevenLabsClient {
   return elevenlabs;
 }
 
-// Função para gerar prompt com contexto da conversa
+// Função para gerar prompt com contexto da conversa, perfil do usuário e RAG
 async function generateContextualPrompt(whatsappNumber: string, currentMessage: string): Promise<{
   systemPrompt: string;
   userPrompt: string;
 }> {
   try {
-    // Buscar contexto da conversa usando o novo service
-    const context = await conversationService.getContextForAI(whatsappNumber, 8);
+    // 1. BUSCAR CONHECIMENTO RELEVANTE (RAG)
+    console.log(`🔍 Buscando conhecimento relevante para: "${currentMessage.substring(0, 50)}..."`);
+    const relevantContent = await embeddingService.searchRelevantContent(
+      currentMessage,
+      3,    // Top 3 documentos mais relevantes
+      0.7   // 70% de similaridade mínima
+    );
+
+    console.log('🔍 Conhecimento relevante encontrado:', relevantContent);
     
+    const ragContext = embeddingService.formatContextForAI(relevantContent);
+    
+    if (relevantContent.length > 0) {
+      console.log(`✅ ${relevantContent.length} documentos relevantes encontrados`);
+      relevantContent.forEach((doc, i) => {
+        console.log(`   ${i + 1}. ${doc.title} (${(doc.similarity * 100).toFixed(1)}% similar)`);
+      });
+    } else {
+      console.log('⚠️ Nenhum documento relevante encontrado na base');
+    }
+    
+    // 2. BUSCAR PERFIL DO USUÁRIO
+    const userProfile = await onboardingService.getUserProfile(whatsappNumber);
+    
+    // 3. BUSCAR HISTÓRICO DA CONVERSA
+    const context = await conversationService.getContextForAI(whatsappNumber, 6);
+    
+    // 4. MONTAR PROMPT DO SISTEMA COM TODAS AS INFORMAÇÕES
+    let enhancedSystemPrompt = DALIO_AI_PROMPT;
+    
+    // Adicionar perfil do usuário
+    if (userProfile && userProfile.profile_step >= 6) {
+      enhancedSystemPrompt += `\n\n**PERFIL DO USUÁRIO:**
+- Idade: ${userProfile.age} anos
+- Perfil de Risco: ${userProfile.risk_tolerance}
+- Faixa de Renda: ${userProfile.income_range}
+- Experiência: ${userProfile.experience_level}
+- Objetivos: ${userProfile.goals?.join(', ')}
+
+Use essas informações para personalizar suas respostas e dar dicas mais relevantes para o perfil do usuário.`;
+    }
+    
+    // Adicionar conhecimento da base (RAG)
+    if (ragContext) {
+      enhancedSystemPrompt += ragContext;
+      enhancedSystemPrompt += `\n**IMPORTANTE:** Use o conhecimento acima para embasar suas respostas. Cite as fontes quando relevante (ex: "Segundo a B3..." ou "De acordo com o Nubank...").`;
+    }
+    
+    // Montar contexto da conversa
     let contextText = "";
     if (context.length > 0) {
       contextText = "\n\n**CONTEXTO DA CONVERSA ANTERIOR:**\n";
@@ -55,12 +103,12 @@ async function generateContextualPrompt(whatsappNumber: string, currentMessage: 
     }
 
     return {
-      systemPrompt: DALIO_AI_PROMPT,
+      systemPrompt: enhancedSystemPrompt,
       userPrompt: contextText + `USUÁRIO: ${currentMessage}`
     };
   } catch (error) {
     console.error('Erro ao gerar contexto:', error);
-    // Fallback para mensagem sem contexto
+    // Fallback para mensagem sem contexto RAG
     return {
       systemPrompt: DALIO_AI_PROMPT,
       userPrompt: `Responde a seguinte mensagem: ${currentMessage}`
@@ -525,31 +573,76 @@ export const handleWebhook = async (req: Request, res: Response) => {
         const messageText = message.text?.body; // Texto da mensagem
         const messageType = message.type;
 
-        // Verificar conteúdo malicioso com modelo customizado
-        const out = await query({ inputs: messageText });
-
-        console.log("Resposta do modelo de classificação:", out);
+        // VERIFICAR SE USUÁRIO PRECISA PASSAR PELO ONBOARDING
+        const needsOnboarding = await onboardingService.needsOnboarding(from);
         
-        // Verificar se o conteúdo é malicioso (score > 70%)
-        const classificationResult = Array.isArray(out) ? out[0] : out;
-        const isMalicious = classificationResult?.score >= 0.7;
-        
-        if (isMalicious) {
+        if (needsOnboarding) {
+          console.log(`🎯 Usuário ${from} em processo de onboarding`);
           
-          // Enviar mensagem padrão para conteúdo malicioso
-          const maliciousMessage = "⚠️ Desculpe, mas não posso responder a esse tipo de conteúdo. Vamos manter nossa conversa focada em educação financeira e investimentos de forma respeitosa e construtiva. Como posso te ajudar com suas finanças hoje? 💰";
+          // Buscar perfil para verificar o step atual
+          const userProfile = await onboardingService.getUserProfile(from);
           
-          await sendWhatsAppMessage(from, maliciousMessage);
+          // Salvar mensagem do usuário
+          await saveUserMessage(from, messageText, messageType);
           
-          // Salvar mensagem de alerta no banco
-          await saveBotMessage(from, maliciousMessage, "content-filter", false);
+          let responseMessage: string;
+          let isCompleted = false;
           
-          // Pular para próxima mensagem sem processar
-          continue;
+          // Se é a primeira interação (step 0), iniciar o onboarding
+          if (userProfile && userProfile.profile_step === 0) {
+            console.log(`🆕 Iniciando onboarding para ${from}`);
+            responseMessage = await onboardingService.startOnboarding(from);
+          } else {
+            // Processar resposta do onboarding (step 1-5)
+            const onboardingResult = await onboardingService.processResponse(from, messageText);
+            responseMessage = onboardingResult.message;
+            isCompleted = onboardingResult.completed;
+          }
+          
+          // Enviar próxima pergunta ou mensagem de conclusão
+          await sendWhatsAppMessage(from, responseMessage);
+          
+          // Salvar resposta do bot
+          await saveBotMessage(from, responseMessage, "onboarding", false);
+          
+          // Se ainda não completou, pular para próxima mensagem
+          if (!isCompleted) {
+            continue;
+          }
+          
+          // Se completou, seguir para o fluxo normal abaixo
+          console.log(`✅ Onboarding completo para ${from}`);
         }
 
-        // Salvar mensagem do usuário no banco
-        await saveUserMessage(from, messageText, messageType);
+        // FLUXO NORMAL - apenas se onboarding estiver completo
+
+        // Verificar conteúdo malicioso com modelo customizado
+        // const out = await query({ inputs: messageText });
+
+        // console.log("Resposta do modelo de classificação:", out);
+        
+        // // Verificar se o conteúdo é malicioso (score > 70%)
+        // const classificationResult = Array.isArray(out) ? out[0] : out;
+        // const isMalicious = classificationResult?.score >= 0.7;
+        
+        // if (isMalicious) {
+          
+        //   // Enviar mensagem padrão para conteúdo malicioso
+        //   const maliciousMessage = "⚠️ Desculpe, mas não posso responder a esse tipo de conteúdo. Vamos manter nossa conversa focada em educação financeira e investimentos de forma respeitosa e construtiva. Como posso te ajudar com suas finanças hoje? 💰";
+          
+        //   await sendWhatsAppMessage(from, maliciousMessage);
+          
+        //   // Salvar mensagem de alerta no banco
+        //   await saveBotMessage(from, maliciousMessage, "content-filter", false);
+          
+        //   // Pular para próxima mensagem sem processar
+        //   continue;
+        // }
+
+        // Salvar mensagem do usuário no banco (se não foi salva no onboarding)
+        if (!needsOnboarding) {
+          await saveUserMessage(from, messageText, messageType);
+        }
 
         // Gerar prompt com contexto da conversa
         const { systemPrompt, userPrompt } = await generateContextualPrompt(from, messageText);
@@ -585,10 +678,10 @@ export const handleWebhook = async (req: Request, res: Response) => {
             await sendWhatsAppMessage(from, fallbackMessage);
 
             try {
-              // Fallback para resposta de texto
-              const response = await generateText({
+            // Fallback para resposta de texto
+            const response = await generateText({
                 system: systemPrompt,
-                model: openai("gpt-4o-mini"),
+              model: openai("gpt-4o-mini"),
                 prompt: userPrompt,
               });
               
@@ -610,9 +703,9 @@ export const handleWebhook = async (req: Request, res: Response) => {
         } else {
           try {
             // Resposta normal com AI usando contexto
-            const response = await generateText({
+          const response = await generateText({
               system: systemPrompt,
-              model: openai("gpt-4o-mini"),
+            model: openai("gpt-4o-mini"),
               prompt: userPrompt,
             });
 
@@ -647,11 +740,42 @@ export const handleWebhook = async (req: Request, res: Response) => {
 };
 
 // Controller para health check
-export const healthCheck = (req: Request, res: Response) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-    service: 'Dalio AI',
-    version: '2.1.0'
-  });
+export const healthCheck = async (req: Request, res: Response) => {
+  try {
+    // Verificar se base de conhecimento tem dados
+    const knowledgeRepository = (await import('../repositories/KnowledgeRepository')).default;
+    const knowledgeCount = await knowledgeRepository.count();
+    
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      service: 'Dalio AI - Assessor Financeiro Gen Z',
+      version: '3.0.0',
+      features: {
+        onboarding: '✅ Sistema de perfil do usuário (5 perguntas)',
+        rag: `✅ RAG com pgvector (${knowledgeCount} documentos)`,
+        ai: '✅ OpenAI GPT-4o-mini',
+        tts: '✅ ElevenLabs Text-to-Speech',
+        database: '✅ Neon PostgreSQL (serverless)',
+        embeddings: '✅ text-embedding-3-small (1536 dim)',
+        vectorIndex: '✅ HNSW (cosine similarity)'
+      },
+      capabilities: [
+        'Respostas personalizadas por perfil de risco',
+        'Busca semântica em base de conhecimento',
+        'Contexto de conversa com histórico',
+        'Geração de áudio com voz natural',
+        'Divisão inteligente de mensagens longas'
+      ]
+    });
+  } catch (error) {
+    console.error('Erro no health check:', error);
+    res.json({
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      service: 'Dalio AI',
+      version: '3.0.0',
+      note: 'Sistema operacional com funcionalidades limitadas'
+    });
+  }
 };

@@ -21,6 +21,10 @@ export async function testConnection(): Promise<boolean> {
 // Função para inicializar as tabelas
 export async function initializeTables(): Promise<void> {
   try {
+    // Habilitar extensão pgvector
+    await sql`CREATE EXTENSION IF NOT EXISTS vector`;
+    console.log('✅ Extensão pgvector habilitada');
+
     // Criar tabela de conversas
     await sql`
       CREATE TABLE IF NOT EXISTS conversations (
@@ -51,6 +55,38 @@ export async function initializeTables(): Promise<void> {
       );
     `;
 
+    // Criar tabela de perfis de usuário
+    await sql`
+      CREATE TABLE IF NOT EXISTS user_profiles (
+        user_id VARCHAR(50) PRIMARY KEY,
+        whatsapp_number VARCHAR(50) UNIQUE NOT NULL,
+        profile_step INTEGER DEFAULT 0,
+        age INTEGER,
+        risk_tolerance VARCHAR(20),
+        goals JSONB,
+        income_range VARCHAR(50),
+        experience_level VARCHAR(50),
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        completed_at TIMESTAMP WITH TIME ZONE
+      );
+    `;
+
+    // Criar tabela de knowledge base com embeddings (RAG)
+    await sql`
+      CREATE TABLE IF NOT EXISTS knowledge_base (
+        id SERIAL PRIMARY KEY,
+        source VARCHAR(255) NOT NULL,
+        title TEXT NOT NULL,
+        content TEXT NOT NULL,
+        tags JSONB,
+        last_updated DATE,
+        embedding VECTOR(1536),
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+    `;
+
     // Criar índices para performance
     await sql`
       CREATE INDEX IF NOT EXISTS idx_conversations_whatsapp 
@@ -65,6 +101,17 @@ export async function initializeTables(): Promise<void> {
     await sql`
       CREATE INDEX IF NOT EXISTS idx_messages_created_at 
       ON messages(created_at);
+    `;
+
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_user_profiles_whatsapp 
+      ON user_profiles(whatsapp_number);
+    `;
+
+    // Criar índice HNSW para busca vetorial eficiente (cosine distance)
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_knowledge_base_embedding 
+      ON knowledge_base USING hnsw (embedding vector_cosine_ops);
     `;
 
     console.log('✅ Tabelas do banco de dados inicializadas');
