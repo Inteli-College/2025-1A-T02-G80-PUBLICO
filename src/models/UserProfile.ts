@@ -1,6 +1,3 @@
-/**
- * Interface para perfil do usuário
- */
 export interface UserProfile {
   user_id: string;
   whatsapp_number: string;
@@ -15,14 +12,8 @@ export interface UserProfile {
   completed_at?: Date;
 }
 
-/**
- * Tipo para atualização parcial de perfil
- */
 export type UserProfileUpdate = Partial<Omit<UserProfile, 'user_id' | 'whatsapp_number'>>;
 
-/**
- * Enum para os passos do onboarding
- */
 export enum OnboardingStep {
   NOT_STARTED = 0,
   AGE = 1,
@@ -33,9 +24,6 @@ export enum OnboardingStep {
   COMPLETED = 6
 }
 
-/**
- * Mapeamento de perguntas por step
- */
 export const ONBOARDING_QUESTIONS: Record<number, string> = {
   1: "👋 Fala! Antes de começar a mandar as dicas de investimento, preciso te conhecer melhor!\n\n🎂 Quantos anos você tem?",
   2: "🎲 Beleza! Agora me conta: você curte risco alto tipo cripto, ou prefere algo mais chill?\n\nEscolha uma opção:\n• Conservador\n• Moderado\n• Agressivo",

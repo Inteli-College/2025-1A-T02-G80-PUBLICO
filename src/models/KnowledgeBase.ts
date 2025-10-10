@@ -1,6 +1,3 @@
-/**
- * Interface para documento da base de conhecimento (RAG)
- */
 export interface KnowledgeBase {
   id?: number;
   source: string;
@@ -13,9 +10,6 @@ export interface KnowledgeBase {
   updated_at?: Date;
 }
 
-/**
- * Interface para dados do data.json
- */
 export interface KnowledgeDataItem {
   source: string;
   title: string;
@@ -24,9 +18,6 @@ export interface KnowledgeDataItem {
   last_updated: string;
 }
 
-/**
- * Interface para resultado de busca semântica
- */
 export interface SemanticSearchResult {
   id: number;
   source: string;

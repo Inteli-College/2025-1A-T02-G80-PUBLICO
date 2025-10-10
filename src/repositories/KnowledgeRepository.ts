@@ -108,7 +108,7 @@ export class KnowledgeRepository {
   }
 
   /**
-   * Limpa toda a base de conhecimento (usar com cuidado!)
+   * Limpa toda a base de conhecimento
    */
   async truncate(): Promise<void> {
     try {

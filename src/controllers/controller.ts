@@ -614,30 +614,28 @@ export const handleWebhook = async (req: Request, res: Response) => {
           console.log(`✅ Onboarding completo para ${from}`);
         }
 
-        // FLUXO NORMAL - apenas se onboarding estiver completo
-
         // Verificar conteúdo malicioso com modelo customizado
-        // const out = await query({ inputs: messageText });
+        const out = await query({ inputs: messageText });
 
-        // console.log("Resposta do modelo de classificação:", out);
+        console.log("Resposta do modelo de classificação:", out);
         
-        // // Verificar se o conteúdo é malicioso (score > 70%)
-        // const classificationResult = Array.isArray(out) ? out[0] : out;
-        // const isMalicious = classificationResult?.score >= 0.7;
+        // Verificar se o conteúdo é malicioso (score > 70%)
+        const classificationResult = Array.isArray(out) ? out[0] : out;
+        const isMalicious = classificationResult?.score >= 0.7;
         
-        // if (isMalicious) {
+        if (isMalicious) {
           
-        //   // Enviar mensagem padrão para conteúdo malicioso
-        //   const maliciousMessage = "⚠️ Desculpe, mas não posso responder a esse tipo de conteúdo. Vamos manter nossa conversa focada em educação financeira e investimentos de forma respeitosa e construtiva. Como posso te ajudar com suas finanças hoje? 💰";
+          // Enviar mensagem padrão para conteúdo malicioso
+          const maliciousMessage = "⚠️ Desculpe, mas não posso responder a esse tipo de conteúdo. Vamos manter nossa conversa focada em educação financeira e investimentos de forma respeitosa e construtiva. Como posso te ajudar com suas finanças hoje? 💰";
           
-        //   await sendWhatsAppMessage(from, maliciousMessage);
+          await sendWhatsAppMessage(from, maliciousMessage);
           
-        //   // Salvar mensagem de alerta no banco
-        //   await saveBotMessage(from, maliciousMessage, "content-filter", false);
+          // Salvar mensagem de alerta no banco
+          await saveBotMessage(from, maliciousMessage, "content-filter", false);
           
-        //   // Pular para próxima mensagem sem processar
-        //   continue;
-        // }
+          // Pular para próxima mensagem sem processar
+          continue;
+        }
 
         // Salvar mensagem do usuário no banco (se não foi salva no onboarding)
         if (!needsOnboarding) {
@@ -740,42 +738,11 @@ export const handleWebhook = async (req: Request, res: Response) => {
 };
 
 // Controller para health check
-export const healthCheck = async (req: Request, res: Response) => {
-  try {
-    // Verificar se base de conhecimento tem dados
-    const knowledgeRepository = (await import('../repositories/KnowledgeRepository')).default;
-    const knowledgeCount = await knowledgeRepository.count();
-    
-    res.json({
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      service: 'Dalio AI - Assessor Financeiro Gen Z',
-      version: '3.0.0',
-      features: {
-        onboarding: '✅ Sistema de perfil do usuário (5 perguntas)',
-        rag: `✅ RAG com pgvector (${knowledgeCount} documentos)`,
-        ai: '✅ OpenAI GPT-4o-mini',
-        tts: '✅ ElevenLabs Text-to-Speech',
-        database: '✅ Neon PostgreSQL (serverless)',
-        embeddings: '✅ text-embedding-3-small (1536 dim)',
-        vectorIndex: '✅ HNSW (cosine similarity)'
-      },
-      capabilities: [
-        'Respostas personalizadas por perfil de risco',
-        'Busca semântica em base de conhecimento',
-        'Contexto de conversa com histórico',
-        'Geração de áudio com voz natural',
-        'Divisão inteligente de mensagens longas'
-      ]
-    });
-  } catch (error) {
-    console.error('Erro no health check:', error);
-    res.json({
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      service: 'Dalio AI',
-      version: '3.0.0',
-      note: 'Sistema operacional com funcionalidades limitadas'
-    });
-  }
+export const healthCheck = (req: Request, res: Response) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    service: 'Dalio AI',
+    version: '2.1.0'
+  });
 };

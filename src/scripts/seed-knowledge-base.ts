@@ -37,10 +37,6 @@ async function main() {
     }
 
     console.log('\n✅ Script finalizado com sucesso!');
-    console.log('\n📊 Estatísticas:');
-    console.log('   - Modelo de embedding: text-embedding-3-small (OpenAI)');
-    console.log('   - Dimensões: 1536');
-    console.log('   - Índice: HNSW (cosine distance)');
     
     process.exit(0);
   } catch (error) {
