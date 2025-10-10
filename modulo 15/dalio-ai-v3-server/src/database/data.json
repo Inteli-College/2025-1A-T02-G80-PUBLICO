@@ -1,0 +1,556 @@
+[
+    {
+      "source": "B3 Educação",
+      "title": "Começando na Bolsa: Guia da Geração Z em 2025",
+      "content": "Investir pode parecer difícil, mas a nova geração já nasceu digital e tem tudo para dominar o mercado. A B3 lançou este guia atualizado com o passo a passo para começar: abrir conta em corretora, entender seu perfil e escolher os primeiros ativos. Spoiler: é mais simples do que zerar um game no hard mode!",
+      "tags": ["B3", "iniciantes", "ações", "ETFs", "Geração Z"],
+      "last_updated": "2025-09-10"
+    },
+    {
+      "source": "CVM (Comissão de Valores Mobiliários)",
+      "title": "Educação Financeira 2025: Proteja seu Dinheiro",
+      "content": "A CVM reforça: informação é sua maior aliada. Este material atualizado traz boas práticas para jovens investidores, explicando diversificação, risco e como evitar golpes digitais. Invista com consciência e segurança.",
+      "tags": ["CVM", "educação financeira", "segurança", "jovens", "regulação"],
+      "last_updated": "2025-09-14"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Criptomoedas 2025: O que muda para quem está começando",
+      "content": "Bitcoin, Ethereum e Solana: as criptos continuam em alta. No app do Nu, você começa com pouco e aprende no caminho. Entenda blockchain, volatilidade e como estudar antes de investir. A regra é clara: comece pequeno e com consciência.",
+      "tags": ["Nubank", "criptomoedas", "Geração Z", "investimento digital", "Bitcoin"],
+      "last_updated": "2025-10-02"
+    },
+    {
+      "source": "XP Investimentos - Conteúdos",
+      "title": "Investindo com Propósito: ESG para Jovens em 2025",
+      "content": "Lucro e impacto andam juntos. A XP atualizou seu portfólio ESG e preparou este conteúdo para mostrar como apoiar empresas com práticas sustentáveis pode render — financeiramente e socialmente.",
+      "tags": ["XP Investimentos", "ESG", "sustentabilidade", "propósito", "Geração Z"],
+      "last_updated": "2025-09-25"
+    },
+    {
+      "source": "Conteúdo Personalizado - TikToker de Finanças",
+      "title": "Top 3 ETFs para 2025: Diversifica que é sucesso!",
+      "content": "Quer começar na bolsa sem complicar? Se liga: BOVA11 (Brasil), IVVB11 (EUA) e ESGB11 (ESG). Três ETFs pra investir fácil, direto do app da sua corretora. Bora colocar o dinheiro pra trabalhar! 💸",
+      "tags": ["ETFs", "TikTok", "investimentos", "Geração Z", "diversificação"],
+      "last_updated": "2025-10-04"
+    },
+    {
+      "source": "Influenciador Cripto - Brasil",
+      "title": "Meme Stocks e Criptos: O hype ainda vale a pena em 2025?",
+      "content": "GameStop, Dogecoin, PepeCoin... será que ainda faz sentido? Entenda por que a psicologia de comunidade move o mercado e como evitar cair no FOMO. Dica: invista só o dinheiro do lanche.",
+      "tags": ["meme stocks", "criptomoedas", "FOMO", "Geração Z", "risco"],
+      "last_updated": "2025-10-06"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Tesouro Direto 2025: Juros altos e oportunidades reais",
+      "content": "A Selic continua em patamares interessantes e o Tesouro Direto segue como o investimento mais seguro do país. Saiba escolher entre Tesouro Selic, Prefixado e IPCA+ para cada objetivo.",
+      "tags": ["B3", "Tesouro Direto", "renda fixa", "segurança", "juros"],
+      "last_updated": "2025-09-27"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "As Caixinhas evoluíram: agora com metas automáticas",
+      "content": "Defina sua meta, e o app faz o resto. As novas Caixinhas ajudam você a atingir seus objetivos com aportes automáticos e simulações de prazo. Visual, simples e direto — do jeito que a Gen Z gosta.",
+      "tags": ["Nubank", "metas", "planejamento", "renda fixa", "automação"],
+      "last_updated": "2025-09-30"
+    },
+    {
+      "source": "CVM (Comissão de Valores Mobiliários)",
+      "title": "Evite Golpes 2025: Como reconhecer pirâmides digitais",
+      "content": "Lucro rápido, promessas milagrosas e recrutamento? Corra. A CVM alerta: antes de investir, confirme o registro da empresa. Informação salva dinheiro.",
+      "tags": ["CVM", "fraudes", "pirâmides", "segurança", "alerta"],
+      "last_updated": "2025-09-20"
+    },
+    {
+      "source": "XP Investimentos - Conteúdos",
+      "title": "Dividendos 2025: As novas queridinhas da renda passiva",
+      "content": "Receber lucros direto na conta nunca sai de moda. Saiba como escolher empresas sólidas e reinvestir dividendos para fazer o efeito bola de neve funcionar.",
+      "tags": ["XP Investimentos", "dividendos", "renda passiva", "ações"],
+      "last_updated": "2025-09-18"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "FIIs 2025: Ganhe 'aluguéis' mensais com praticidade",
+      "content": "Fundos Imobiliários seguem populares. Com R$100, você já pode ter participação em galpões, shoppings e prédios comerciais. E o melhor: rendimentos mensais isentos de IR.",
+      "tags": ["B3", "FIIs", "fundos imobiliários", "dividendos"],
+      "last_updated": "2025-10-01"
+    },
+    {
+      "source": "TikToker de Finanças",
+      "title": "Selic subiu? Saiba onde investir agora!",
+      "content": "Com a Selic em alta, a renda fixa brilha. Tesouro Selic, CDBs e LCIs são ótimas opções pra segurar os juros e ver seu dinheiro render mais. Bora aproveitar o momento!",
+      "tags": ["Selic", "renda fixa", "dicas", "Tesouro Direto"],
+      "last_updated": "2025-10-05"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Poupança x CDB: 2025 não é mais 2005",
+      "content": "A poupança perdeu espaço. Entenda como CDBs e fundos garantidos podem render mais e ainda manter sua segurança. Spoiler: deixar dinheiro parado é game over!",
+      "tags": ["Nubank", "CDB", "poupança", "renda fixa"],
+      "last_updated": "2025-09-22"
+    },
+    {
+      "source": "XP Investimentos - Conteúdos",
+      "title": "Fundos Multimercado 2025: Rentabilidade em todos os cenários",
+      "content": "Os fundos multimercado seguem firmes em 2025. Perfeitos pra quem quer diversificar sem se preocupar com o sobe e desce da bolsa. Conheça os principais tipos e estratégias.",
+      "tags": ["XP Investimentos", "fundos", "diversificação", "multimercado"],
+      "last_updated": "2025-09-29"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "BDRs 2025: Invista em gigantes globais sem sair do Brasil",
+      "content": "Com os BDRs, você investe em Apple, Google e Amazon direto da sua corretora. É a maneira mais fácil de dolarizar seus investimentos e diversificar a carteira.",
+      "tags": ["B3", "BDRs", "internacional", "ações"],
+      "last_updated": "2025-09-28"
+    },
+    {
+      "source": "CVM (Comissão de Valores Mobiliários)",
+      "title": "Suitability Atualizado: Descubra seu Perfil 2025",
+      "content": "Seu perfil muda com o tempo. Atualize seu teste de suitability e garanta que seus investimentos ainda fazem sentido pro seu momento de vida.",
+      "tags": ["CVM", "perfil de investidor", "suitability", "segurança"],
+      "last_updated": "2025-09-19"
+    },
+    {
+      "source": "Influenciador Cripto BR",
+      "title": "NFTs em 2025: Ainda valem o hype?",
+      "content": "Os NFTs amadureceram. Agora, mais do que arte digital, eles representam acesso, colecionáveis e utilidade real. Mas lembre: ainda é um mercado volátil.",
+      "tags": ["NFT", "criptoarte", "blockchain", "investimentos digitais"],
+      "last_updated": "2025-09-24"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "LCI e LCA 2025: Renda fixa com isenção e propósito",
+      "content": "As LCIs e LCAs continuam sendo ótimas opções para quem busca segurança, retorno e isenção de IR. Invista no agro e no setor imobiliário com confiança.",
+      "tags": ["LCI", "LCA", "renda fixa", "isenção IR"],
+      "last_updated": "2025-09-21"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Previdência Jovem: Comece sua aposentadoria agora",
+      "content": "Aos 20 anos parece cedo, mas o tempo é seu maior aliado. PGBL e VGBL podem multiplicar seu patrimônio até a aposentadoria. Invista no seu futuro hoje.",
+      "tags": ["XP", "previdência", "aposentadoria", "longo prazo"],
+      "last_updated": "2025-09-26"
+    },
+    {
+      "source": "TikToker Financeiro",
+      "title": "Reserva de Emergência 2025: Seu 'save point' financeiro",
+      "content": "Pense na reserva de emergência como um 'checkpoint' da sua vida. Guarde pelo menos 6 meses do seu custo de vida em Tesouro Selic ou CDB com liquidez diária.",
+      "tags": ["reserva", "emergência", "renda fixa", "liquidez"],
+      "last_updated": "2025-10-03"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "IPO 2025: Como participar de novas estreias na bolsa",
+      "content": "Quer entrar antes que a maioria? Aprenda a analisar um IPO, avaliar riscos e reservar ações de forma consciente. Informação é poder (e lucro).",
+      "tags": ["B3", "IPO", "ações", "mercado de capitais"],
+      "last_updated": "2025-09-17"
+    },
+    {
+      "source": "Conteúdo Personalizado - TikToker de Finanças",
+      "title": "Renda Extra 2025: 3 jeitos de fazer grana pra investir",
+      "content": "Sem dinheiro pra investir? Bora resolver. 1) Freelas rápidos online, 2) Revenda de produtos no Insta, 3) Criar micro-serviços com IA. Pega essa grana e manda pra corretora antes de gastar!",
+      "tags": ["renda extra", "finanças pessoais", "IA", "Geração Z", "investimentos"],
+      "last_updated": "2025-10-06"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "ETFs Internacionais: Diversifique em 2025",
+      "content": "Quer exposição global? Os ETFs internacionais te conectam com mercados como EUA, Europa e Ásia sem sair do Brasil. Ideal pra dolarizar parte da carteira.",
+      "tags": ["B3", "ETFs", "internacional", "diversificação"],
+      "last_updated": "2025-09-23"
+    },
+    {
+      "source": "CVM (Comissão de Valores Mobiliários)",
+      "title": "Influencers Financeiros: Como seguir com senso crítico",
+      "content": "Nem toda dica viral serve pra você. Verifique se o influenciador é certificado, confirme informações em fontes oficiais e nunca invista por impulso.",
+      "tags": ["CVM", "influenciadores", "regulação", "segurança", "Geração Z"],
+      "last_updated": "2025-09-25"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Pix Automático: Novo aliado dos investidores",
+      "content": "Agora dá pra programar Pix direto pra sua corretora! Automatize aportes semanais e crie o hábito de investir sem pensar. Tecnologia a favor do seu futuro.",
+      "tags": ["Nubank", "Pix", "automação", "hábito", "investimentos"],
+      "last_updated": "2025-10-01"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Fundos Temáticos 2025: IA, Games e Energias Limpas",
+      "content": "Os fundos temáticos estão em alta. Aposte em tendências como Inteligência Artificial, indústria de games e transição energética pra capturar crescimento global.",
+      "tags": ["XP", "fundos temáticos", "IA", "games", "energia limpa"],
+      "last_updated": "2025-10-03"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Educação Financeira nas Universidades",
+      "content": "Faculdades e escolas técnicas estão incluindo finanças pessoais na grade. Aprender cedo evita erros caros. Conhecimento é o primeiro investimento.",
+      "tags": ["B3", "educação financeira", "universitários", "jovens"],
+      "last_updated": "2025-09-30"
+    },
+    {
+      "source": "Influenciador Cripto - Brasil",
+      "title": "DeFi 2025: O novo banco digital descentralizado",
+      "content": "Empréstimos, staking e swaps sem banco no meio. As finanças descentralizadas (DeFi) crescem e trazem oportunidades — e riscos. Estude antes de clicar.",
+      "tags": ["DeFi", "blockchain", "cripto", "finanças descentralizadas"],
+      "last_updated": "2025-09-28"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Planejamento Financeiro: Como definir metas reais",
+      "content": "Quer juntar pra intercâmbio, carro ou reserva? Aprenda a criar metas SMART, calcular aportes e monitorar o progresso direto no app.",
+      "tags": ["Nubank", "planejamento", "metas", "finanças pessoais"],
+      "last_updated": "2025-09-18"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Renda Variável 2025: Como lidar com a volatilidade",
+      "content": "Oscilações fazem parte. Compreenda o longo prazo, diversifique e mantenha aportes regulares. Emoção não pode guiar investimento.",
+      "tags": ["XP", "renda variável", "volatilidade", "estratégia"],
+      "last_updated": "2025-09-22"
+    },
+    {
+      "source": "TikToker de Finanças",
+      "title": "Mindset Financeiro: Pare de sabotar seus aportes",
+      "content": "Não é falta de dinheiro, é falta de hábito. Automatize, use metas visuais e celebre cada conquista. Investir tem que caber no seu estilo de vida.",
+      "tags": ["mindset", "hábito", "Geração Z", "finanças pessoais"],
+      "last_updated": "2025-10-02"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Imposto de Renda 2025: Simplificado para investidores",
+      "content": "Nova versão do IR facilita declaração de ações, FIIs e cripto. Entenda o que precisa declarar e evite multas. Organização é lucro.",
+      "tags": ["B3", "imposto de renda", "tributação", "investimentos"],
+      "last_updated": "2025-09-27"
+    },
+    {
+      "source": "CVM",
+      "title": "Finanças Comportamentais: Por que você investe mal",
+      "content": "Viés de confirmação, FOMO e aversão à perda: entenda como o psicológico afeta decisões financeiras e aprenda a investir com racionalidade.",
+      "tags": ["CVM", "finanças comportamentais", "psicologia", "educação"],
+      "last_updated": "2025-09-21"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Carteira Inteligente: IA ajudando seu portfólio",
+      "content": "Algoritmos agora analisam seu perfil e sugerem rebalanceamento automático. Tecnologia e finanças juntos pra facilitar sua vida.",
+      "tags": ["XP", "IA", "carteira inteligente", "inovação"],
+      "last_updated": "2025-10-04"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Investindo em Casal: Como alinhar objetivos financeiros",
+      "content": "Dinheiro é tabu em muitos relacionamentos. Aprenda a planejar juntos, dividir metas e investir como time. Comunicação é o melhor ativo.",
+      "tags": ["Nubank", "casais", "planejamento", "metas"],
+      "last_updated": "2025-09-29"
+    },
+    {
+      "source": "TikToker Financeiro",
+      "title": "Top 5 Apps que Todo Investidor Jovem Deve Ter",
+      "content": "Corretora, app de orçamento, comparador de CDB, simulador de aposentadoria e rastreador de cripto. Ferramentas certas aceleram seu aprendizado.",
+      "tags": ["apps", "ferramentas", "Geração Z", "investimentos"],
+      "last_updated": "2025-09-30"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Finanças Sustentáveis: O impacto do seu dinheiro em 2025",
+      "content": "Investir é votar com o bolso. Entenda como identificar empresas verdes e acompanhar indicadores ESG antes de aplicar.",
+      "tags": ["B3", "ESG", "sustentabilidade", "impacto"],
+      "last_updated": "2025-10-01"
+    },
+    {
+      "source": "CVM",
+      "title": "Golpes via WhatsApp: Como não cair",
+      "content": "Golpistas fingem ser corretoras ou amigos. Nunca compartilhe códigos nem clique em links suspeitos. Confirme canais oficiais sempre.",
+      "tags": ["CVM", "segurança digital", "golpes", "educação financeira"],
+      "last_updated": "2025-09-24"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Fundos Imobiliários 2025: Novas tendências",
+      "content": "FIIs logísticos e de data centers ganham espaço. Veja como escolher com base em vacância, yield e gestão.",
+      "tags": ["XP", "FIIs", "fundos imobiliários", "tendências"],
+      "last_updated": "2025-09-28"
+    },
+    {
+      "source": "Influenciador Cripto",
+      "title": "Halving do Bitcoin 2025: O que esperar",
+      "content": "Evento que reduz recompensas dos mineradores pode afetar oferta e preço. Entenda o impacto histórico e como se preparar.",
+      "tags": ["Bitcoin", "halving", "cripto", "estratégia"],
+      "last_updated": "2025-10-05"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Investindo para Viajar: Monte sua meta no app",
+      "content": "Quer conhecer o mundo? Crie uma Caixinha ‘Viagem’, defina valor e prazo, e veja seu sonho se aproximar com aportes automáticos.",
+      "tags": ["Nubank", "metas", "viagem", "planejamento"],
+      "last_updated": "2025-09-26"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Gamificação Financeira: Aprender investindo",
+      "content": "Novas plataformas usam missões e recompensas pra ensinar investimentos. Aprender jogando é o novo normal.",
+      "tags": ["B3", "gamificação", "educação financeira", "Geração Z"],
+      "last_updated": "2025-09-19"
+    },
+    {
+      "source": "TikToker de Finanças",
+      "title": "Checklist do Investidor Iniciante 2025",
+      "content": "Conta em corretora? ✅ Reserva feita? ✅ Tesouro Direto? ✅ Agora é só diversificar e manter constância. Invista sem medo!",
+      "tags": ["checklist", "iniciantes", "renda fixa", "investimentos"],
+      "last_updated": "2025-10-03"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Small Caps Brasileiras: Oportunidades escondidas",
+      "content": "Empresas menores com grande potencial. Aprenda a analisar fundamentos e riscos antes de incluir na carteira.",
+      "tags": ["XP", "Small Caps", "ações", "crescimento"],
+      "last_updated": "2025-09-30"
+    },
+    {
+      "source": "CVM",
+      "title": "Mercado de Capitais 2025: Mais acessível do que nunca",
+      "content": "Novas regulações facilitaram o acesso para jovens investidores. Conheça produtos e seus direitos.",
+      "tags": ["CVM", "mercado de capitais", "regulação", "jovens"],
+      "last_updated": "2025-09-18"
+    },
+    {
+      "source": "Influenciador Financeiro",
+      "title": "Planilha de Metas 2025: Como organizar sua vida financeira",
+      "content": "Baixe a planilha gratuita e controle gastos, metas e investimentos num só lugar. Clareza é poder.",
+      "tags": ["planilha", "organização", "metas", "finanças pessoais"],
+      "last_updated": "2025-09-29"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Ações 2025: Como escolher empresas sólidas",
+      "content": "Aprenda a analisar balanços, margens e histórico de dividendos pra montar uma carteira forte.",
+      "tags": ["B3", "ações", "fundamentalista", "análise"],
+      "last_updated": "2025-09-22"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "CDBs e LCIs Digitais: Rentabilidade e liquidez",
+      "content": "Os bancos digitais estão oferecendo ótimos retornos. Veja como comparar taxas e prazos direto pelo app.",
+      "tags": ["XP", "CDB", "LCI", "renda fixa", "digitais"],
+      "last_updated": "2025-10-02"
+    },
+    {
+      "source": "TikToker Financeiro",
+      "title": "Finanças com IA: 3 ferramentas que ajudam você a investir melhor",
+      "content": "De bots de orçamento a assistentes que sugerem aportes, a IA é a nova coach financeira da Gen Z.",
+      "tags": ["IA", "ferramentas", "finanças pessoais", "Geração Z"],
+      "last_updated": "2025-10-06"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Day Trade 2025: Mitos e Verdades",
+      "content": "Day trade é pra poucos e requer estudo e estratégia. Entenda os riscos e descubra por que a maioria perde dinheiro.",
+      "tags": ["XP", "day trade", "renda variável", "risco"],
+      "last_updated": "2025-09-20"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Economia Comportamental: Como emoções afetam seu bolso",
+      "content": "Raiva, euforia e medo são os maiores inimigos do investidor. Domine suas emoções pra dominar seus investimentos.",
+      "tags": ["B3", "comportamento", "psicologia", "investimentos"],
+      "last_updated": "2025-09-25"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Investindo com pouco: Comece com R$10 em 2025",
+      "content": "Não espere sobrar: comece com o que tem. Plataformas permitem aportes mínimos baixos pra criar o hábito.",
+      "tags": ["Nubank", "iniciantes", "pequenos aportes", "hábito"],
+      "last_updated": "2025-09-24"
+    },
+    {
+      "source": "Influenciador de Finanças",
+      "title": "Como Funciona o Score de Crédito e por que importa",
+      "content": "Seu score influencia financiamentos e cartões. Pague em dia, evite dívidas e veja seu score crescer.",
+      "tags": ["score", "crédito", "educação financeira"],
+      "last_updated": "2025-09-28"
+    },
+    {
+      "source": "CVM",
+      "title": "Finanças e Sustentabilidade: ESG na prática",
+      "content": "Entenda como avaliar empresas que seguem critérios ambientais, sociais e de governança.",
+      "tags": ["CVM", "ESG", "sustentabilidade", "investimentos"],
+      "last_updated": "2025-10-01"
+    },
+    {
+      "source": "TikToker de Finanças",
+      "title": "Top 3 Livros pra Entender Dinheiro de Verdade",
+      "content": "Pai Rico, Pai Pobre, Psicologia Financeira e Os Segredos da Mente Milionária. Leitura é investimento!",
+      "tags": ["livros", "educação financeira", "leitura", "Geração Z"],
+      "last_updated": "2025-09-27"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Mercado Futuro: Como proteger sua carteira",
+      "content": "Aprenda a usar contratos futuros pra travar preços e reduzir riscos. Ferramenta poderosa pra investidores avançados.",
+      "tags": ["B3", "mercado futuro", "hedge", "estratégia"],
+      "last_updated": "2025-09-26"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Como Funciona um Fundo de Investimento",
+      "content": "Reúna forças com outros investidores e aproveite gestão profissional. Entenda taxas e liquidez antes de aplicar.",
+      "tags": ["XP", "fundos", "investimento coletivo"],
+      "last_updated": "2025-09-19"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Como Declarar Criptomoedas no IR 2025",
+      "content": "A Receita atualizou regras pra cripto. Veja passo a passo como declarar sem erro.",
+      "tags": ["Nubank", "cripto", "imposto de renda", "tributação"],
+      "last_updated": "2025-10-04"
+    },
+    {
+      "source": "TikToker Financeiro",
+      "title": "Pix Parcelado: Usar ou evitar?",
+      "content": "Pix parcelado é crédito disfarçado. Pode ser útil, mas juros pegam pesado. Use com consciência.",
+      "tags": ["Pix", "crédito", "educação financeira"],
+      "last_updated": "2025-09-29"
+    },
+    {
+      "source": "CVM",
+      "title": "Crowdfunding de Investimento: Invista em Startups",
+      "content": "Plataformas regulamentadas permitem investir em startups a partir de R$100. Conheça riscos e potencial.",
+      "tags": ["CVM", "startups", "crowdfunding", "investimentos alternativos"],
+      "last_updated": "2025-09-30"
+    },
+    {
+      "source": "Influenciador de Finanças",
+      "title": "Como Usar IA pra Analisar Ações",
+      "content": "Ferramentas de IA ajudam a ler balanços, comparar empresas e gerar insights. Tecnologia a favor do investidor.",
+      "tags": ["IA", "ações", "análise", "investimentos"],
+      "last_updated": "2025-10-02"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Tesouro IPCA+: Proteja-se da Inflação",
+      "content": "O Tesouro IPCA+ garante rendimento real acima da inflação. Ideal pra objetivos de longo prazo.",
+      "tags": ["XP", "Tesouro Direto", "inflação", "renda fixa"],
+      "last_updated": "2025-09-28"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Metas SMART: Organize suas finanças em 2025",
+      "content": "Específicas, mensuráveis, atingíveis, relevantes e temporais. Use esse método pra planejar sua vida financeira.",
+      "tags": ["Nubank", "planejamento", "metas", "SMART"],
+      "last_updated": "2025-10-01"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Investimento Automático: O poder dos aportes regulares",
+      "content": "Automatizar é eliminar desculpas. Crie um plano de aportes mensais e veja o efeito dos juros compostos.",
+      "tags": ["B3", "automação", "aportes", "juros compostos"],
+      "last_updated": "2025-09-24"
+    },
+    {
+      "source": "TikToker de Finanças",
+      "title": "Como Usar o 13º pra Investir Melhor",
+      "content": "Nada de torrar o bônus! Use 50% pra quitar dívidas e 50% pra investir. É o jeito certo de começar o ano.",
+      "tags": ["13º", "planejamento", "investimentos"],
+      "last_updated": "2025-09-25"
+    },
+    {
+      "source": "CVM",
+      "title": "Finanças para Autônomos: Renda irregular, carteira sólida",
+      "content": "Quem é autônomo também pode investir. Aprenda a criar reservas e ajustar aportes com base na receita.",
+      "tags": ["CVM", "autônomos", "renda variável", "planejamento"],
+      "last_updated": "2025-09-23"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Risco x Retorno: Como montar carteira balanceada",
+      "content": "Entenda o equilíbrio entre segurança e rentabilidade e construa uma carteira personalizada.",
+      "tags": ["XP", "risco", "diversificação", "estratégia"],
+      "last_updated": "2025-09-21"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Renda Fixa 2025: O retorno dos juros altos",
+      "content": "Com Selic alta, CDBs e Tesouro rendem bem. Veja como escolher os melhores prazos.",
+      "tags": ["B3", "renda fixa", "Selic", "juros"],
+      "last_updated": "2025-10-05"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Como Investir no Exterior em 2025",
+      "content": "Use BDRs, ETFs internacionais ou contas globais pra diversificar. Dolarizar é proteger patrimônio.",
+      "tags": ["Nubank", "internacional", "BDR", "ETFs"],
+      "last_updated": "2025-10-04"
+    },
+    {
+      "source": "Influenciador de Finanças",
+      "title": "Minimalismo Financeiro: Menos gastos, mais liberdade",
+      "content": "Corte excessos, priorize experiências e invista o que sobra. Qualidade de vida é ROI também.",
+      "tags": ["minimalismo", "finanças pessoais", "Geração Z"],
+      "last_updated": "2025-09-29"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Como Ler um Extrato de Investimentos",
+      "content": "Aprenda a interpretar rendimento bruto, taxas e impostos. Clareza evita erros e frustrações.",
+      "tags": ["XP", "extrato", "transparência", "educação financeira"],
+      "last_updated": "2025-10-02"
+    },
+    {
+      "source": "TikToker de Finanças",
+      "title": "Top 5 Erros de Quem Está Começando a Investir",
+      "content": "1) Seguir modinhas. 2) Ignorar reserva. 3) Vender na baixa. 4) Não diversificar. 5) Esquecer impostos.",
+      "tags": ["iniciantes", "erros", "educação financeira"],
+      "last_updated": "2025-09-27"
+    },
+    {
+      "source": "CVM",
+      "title": "Criptoativos 2025: Regulação e segurança",
+      "content": "Nova lei define regras pra exchanges e investidores. Menos risco, mais transparência.",
+      "tags": ["CVM", "cripto", "regulação", "segurança"],
+      "last_updated": "2025-09-30"
+    },
+    {
+      "source": "B3 Educação",
+      "title": "Como Funciona o Juros Compostos: Seu melhor amigo",
+      "content": "Juros sobre juros é o segredo da riqueza. Quanto antes começar, mais mágica acontece.",
+      "tags": ["B3", "juros compostos", "educação financeira"],
+      "last_updated": "2025-09-18"
+    },
+    {
+      "source": "Blog do Nubank",
+      "title": "Gastos Invisíveis: Os vilões do seu orçamento",
+      "content": "Pequenas despesas diárias acumulam. Use planilhas ou apps pra rastrear e cortar.",
+      "tags": ["Nubank", "orçamento", "planejamento", "finanças pessoais"],
+      "last_updated": "2025-09-28"
+    },
+    {
+      "source": "Influenciador Financeiro",
+      "title": "Como Montar um Orçamento Realista",
+      "content": "Divida em 50/30/20: 50% necessidades, 30% lazer, 20% investimentos. Ajuste conforme sua renda.",
+      "tags": ["orçamento", "planejamento", "finanças pessoais"],
+      "last_updated": "2025-09-26"
+    },
+    {
+      "source": "XP Investimentos",
+      "title": "Fundos de Pensão: Alternativa para longo prazo",
+      "content": "Ideal pra quem busca segurança e planejamento previdenciário. Conheça vantagens e liquidez.",
+      "tags": ["XP", "previdência", "fundos de pensão", "longo prazo"],
+      "last_updated": "2025-09-24"
+    },
+    {
+      "source": "TikToker de Finanças",
+      "title": "Dicas pra Estudar Finanças Sem Sono",
+      "content": "Aprenda com podcasts, vídeos curtos e desafios semanais. Estudar finanças não precisa ser chato.",
+      "tags": ["educação financeira", "Geração Z", "aprendizado"],
+      "last_updated": "2025-10-03"
+    },
+    {
+      "source": "CVM",
+      "title": "Como Denunciar Esquemas Financeiros",
+      "content": "Viu promessa de lucro garantido? Denuncie pelo site da CVM. Sua ação protege outros.",
+      "tags": ["CVM", "fraudes", "denúncia", "proteção"],
+      "last_updated": "2025-09-25"
+    }
+  ]
+  

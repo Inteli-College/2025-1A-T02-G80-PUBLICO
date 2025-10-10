@@ -1,0 +1,41 @@
+{
+  "name": "dalio-ai-v3-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "start": "node index.js",
+    "dev": "nodemon --exec \"node --loader ts-node/esm\" index.ts",
+    "elevenlabs": "node --loader ts-node/esm elevenlabs.ts",
+    "seed:knowledge": "node --loader ts-node/esm src/scripts/seed-knowledge-base.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@ai-sdk/openai": "^2.0.16",
+    "@elevenlabs/elevenlabs-js": "^2.12.0",
+    "@huggingface/inference": "^4.8.0",
+    "@neondatabase/serverless": "^1.0.1",
+    "ai": "^5.0.17",
+    "axios": "^1.12.2",
+    "dotenv": "^17.2.1",
+    "express": "^4.19.0",
+    "nodemon": "^3.1.10"
+  },
+  "devDependencies": {
+    "@gradio/client": "^1.19.0",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.3.0",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.1.3",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  }
+}
